@@ -1,0 +1,5 @@
+export enum Operacao {
+  SAQUE = 'SAQUE',
+  DEPOSITO = 'DEPOSITO',
+  TRANSFERENCIA = 'TRANSFERENCIA'
+}
