@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import {EnvironmentService} from "@shared/services/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
@@ -13,17 +12,16 @@ export class AgenciaService {
   private endpoint: string;
 
   constructor(
-    private http: HttpClient,
-    private environment: EnvironmentService,
+    private http: HttpClient
   ) {
     this.endpoint = `api/agencias`;
   }
 
-  addAgencia(params: IAgencia): Observable<IAgencia> {
+  addAgencia(params: any): Observable<IAgencia> {
     return this.http.post<IAgencia>(this.endpoint, params);
   }
 
-  getAgenciaById(id: bigint): Observable<IAgencia> {
+  getAgenciaById(id: number): Observable<IAgencia> {
     return this.http.get<IAgencia>(`${this.endpoint}/${id}`);
   }
 
@@ -32,11 +30,11 @@ export class AgenciaService {
     return this.http.get<IAgencia[]>(this.endpoint);
   }
 
-  updateAgrupe(id: bigint, params: IAgencia): Observable<IAgencia> {
+  updateAgencia(id: number, params: any): Observable<IAgencia> {
     return this.http.put<IAgencia>(`${this.endpoint}/${id}`, params);
   }
 
-  deleteAgencia(id: bigint): Observable<IAgencia> {
+  deleteAgencia(id: number): Observable<IAgencia> {
     return this.http.delete<IAgencia>(`${this.endpoint}/${id}`);
   }
 }

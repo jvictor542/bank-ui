@@ -1,6 +1,6 @@
 export interface IAgencia {
   nome: string;
-  id: bigint;
+  id: number;
   endereco: string;
   telefone: string;
 }

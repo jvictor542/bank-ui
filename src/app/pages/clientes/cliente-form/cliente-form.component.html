@@ -1,1 +1,50 @@
-<p>cliente-form works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <ng-container *ngIf="isEditMode; else createTitle">
+        Editar cliente
+      </ng-container>
+      <ng-template #createTitle> Cadastrar novo cliente </ng-template>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="input-group">
+      <form [formGroup]="newClienteForm">
+        <div class="input-row">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Nome do cliente"
+              formControlName="nome"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Telefone" formControlName="telefone" />
+          </mat-form-field>
+        </div>
+
+        <div class="input-row">
+          <mat-form-field>
+            <input matInput placeholder="CPF" formControlName="cpf" />
+          </mat-form-field>
+          <ng-container *ngIf="!isEditMode">
+            <mat-form-field>
+              <input matInput placeholder="Id" formControlName="id" />
+            </mat-form-field>
+          </ng-container>
+
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="buttons-container">
+    <button mat-raised-button color="primary" (click)="close()">
+      Cancelar
+    </button>
+    <button mat-stroked-button color="primary" (click)="saveCliente()">
+      Salvar
+    </button>
+  </mat-card-actions>
+</mat-card>
+

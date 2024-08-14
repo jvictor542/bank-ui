@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {EnvironmentService, IContaCorrente, IContaCorrenteRequestParams, IExtrato} from "@app/shared";
+import {IContaCorrente, IContaCorrenteRequestParams, IExtrato} from "@app/shared";
 import {HttpClient} from "@angular/common/http";
 
 
@@ -12,10 +12,9 @@ export class ExtratoService {
   private endpoint: string;
 
   constructor(
-    private http: HttpClient,
-    private environment: EnvironmentService
+    private http: HttpClient
   ) {
-    this.endpoint = `${this.environment.apiUrl}/extratos`;
+    this.endpoint = `api/extratos`;
   }
 
   addExtrato(params: IExtrato): Observable<IExtrato> {

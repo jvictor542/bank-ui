@@ -1,0 +1,48 @@
+.clientes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  button {
+    width: max-content;
+  }
+
+}
+
+.action-cell {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+}
+
+::ng-deep .mat-card-header-text {
+  display: none;
+}
+
+.dialog-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.35);
+
+  &-content {
+    border-radius: 1rem;
+  }
+}
+
+.clickable-link {
+  text-decoration: underline;
+  color: #007bff; /* Bootstrap primary color or any color you prefer */
+  cursor: pointer;
+}
+
+.clickable-link:hover {
+  color: #0056b3; /* Darker shade for hover effect */
+  text-decoration: underline;
+}

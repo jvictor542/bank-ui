@@ -1,0 +1,24 @@
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-group {
+  .input-row {
+    display: flex;
+    gap: 0.75rem;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+}
+
+::ng-deep {
+  .mat-form-field-appearance-outline .mat-form-field-suffix {
+    top: 0 !important;
+  }
+  .mat-form-field-appearance-outline .mat-form-field-wrapper {
+    margin: 0;
+    padding: 0;
+  }
+}

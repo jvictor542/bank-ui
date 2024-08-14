@@ -1,1 +1,49 @@
-<p>agencia-form works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <ng-container *ngIf="isEditMode; else createTitle">
+        Editar agência
+      </ng-container>
+      <ng-template #createTitle> Cadastrar nova agência </ng-template>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="input-group">
+      <form [formGroup]="newAgenciaForm">
+        <div class="input-row">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Nome da agência"
+              formControlName="nome"
+            />
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Telefone" formControlName="telefone" />
+          </mat-form-field>
+        </div>
+
+        <div class="input-row">
+          <mat-form-field>
+            <input matInput placeholder="Endereço" formControlName="endereco" />
+          </mat-form-field>
+          <ng-container *ngIf="!isEditMode">
+            <mat-form-field>
+              <input matInput placeholder="Id" formControlName="id" />
+            </mat-form-field>
+          </ng-container>
+
+        </div>
+      </form>
+    </div>
+  </mat-card-content>
+  <mat-card-actions class="buttons-container">
+    <button mat-raised-button color="primary" (click)="close()">
+      Cancelar
+    </button>
+    <button mat-stroked-button color="primary" (click)="saveAgencia()">
+      Salvar
+    </button>
+  </mat-card-actions>
+</mat-card>

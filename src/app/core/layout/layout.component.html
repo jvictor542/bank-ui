@@ -1,8 +1,9 @@
 <div class="app-container">
   <header class="app-container-header">
-    <h1 routerLink="/home">{{ title }}</h1>
+    <a routerLink="agencias" routerLinkActive="active">Agências</a>
+    <a routerLink="clientes" routerLinkActive="active">Clientes</a>
   </header>
   <main class="app-container-main">
-    <app-agencias></app-agencias>
+    <router-outlet></router-outlet>
   </main>
 </div>

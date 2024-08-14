@@ -1,1 +1,25 @@
-<p>conta-corrente-form works!</p>
+<h2 mat-dialog-title>Create Account</h2>
+<form [formGroup]="newContaForm">
+  <mat-dialog-content>
+    <mat-form-field appearance="fill">
+      <mat-label>Número da Conta</mat-label>
+      <input matInput formControlName="numero">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Saldo</mat-label>
+      <input matInput formControlName="saldo" type="number">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select placeholder="Agências" formControlName="agenciaId">
+        <mat-option *ngFor="let agencia of agencias" [value]="agencia.id">
+          {{ agencia.nome }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button (click)="close()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="addConta()">Criar Conta </button>
+  </mat-dialog-actions>
+</form>

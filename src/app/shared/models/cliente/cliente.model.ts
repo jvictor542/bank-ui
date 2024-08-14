@@ -1,6 +1,6 @@
 export interface ICliente {
   nome: string;
-  id: bigint;
+  id: number;
   cpf: string;
   telefone: string;
 }

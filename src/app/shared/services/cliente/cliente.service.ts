@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {EnvironmentService} from "@shared/services/environment";
 import {ICliente} from "@app/shared";
 import {Observable} from "rxjs";
 
@@ -12,17 +11,16 @@ export class ClienteService {
   private endpoint: string;
 
   constructor(
-    private http: HttpClient,
-    private environment: EnvironmentService
+    private http: HttpClient
   ) {
-    this.endpoint = `${this.environment.apiUrl}/clientes`;
+    this.endpoint = `api/clientes`;
   }
 
-  addCliente(params: ICliente): Observable<ICliente> {
+  addCliente(params: any): Observable<ICliente> {
     return this.http.post<ICliente>(this.endpoint, params);
   }
 
-  getClienteById(id: bigint): Observable<ICliente> {
+  getClienteById(id: number): Observable<ICliente> {
     return this.http.get<ICliente>(`${this.endpoint}/${id}`);
   }
 
@@ -30,11 +28,11 @@ export class ClienteService {
     return this.http.get<ICliente[]>(this.endpoint);
   }
 
-  updateClientes(id: bigint, params: ICliente): Observable<ICliente> {
+  updateClientes(id: number, params: any): Observable<ICliente> {
     return this.http.put<ICliente>(`${this.endpoint}/${id}`, params);
   }
 
-  deleteCliente(id: bigint): Observable<ICliente> {
+  deleteCliente(id: number): Observable<ICliente> {
     return this.http.delete<ICliente>(`${this.endpoint}/${id}`);
   }
 }

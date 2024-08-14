@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {EnvironmentService} from "@shared/services/environment";
 import {IContaCorrente} from "@app/shared";
 import {Observable} from "rxjs";
 
@@ -19,13 +18,12 @@ export class ContacorrenteService {
   private endpoint: string;
 
   constructor(
-    private http: HttpClient,
-    private environment: EnvironmentService
+    private http: HttpClient
   ) {
-    this.endpoint = `${this.environment.apiUrl}/contas`;
+    this.endpoint = `api/contas`;
   }
 
-  addConta(params: IContaCorrenteRequestParams): Observable<IContaCorrente> {
+  addConta(params: any): Observable<IContaCorrente> {
     return this.http.post<IContaCorrente>(this.endpoint, params);
   }
 
@@ -37,11 +35,11 @@ export class ContacorrenteService {
     return this.http.get<IContaCorrente[]>(this.endpoint);
   }
 
-  updateContas(id: bigint, params: IContaCorrente): Observable<IContaCorrente> {
+  updateContas(id: number, params: IContaCorrente): Observable<IContaCorrente> {
     return this.http.put<IContaCorrente>(`${this.endpoint}/${id}`, params);
   }
 
-  deleteContas(id: bigint): Observable<IContaCorrente> {
+  deleteContas(id: number): Observable<IContaCorrente> {
     return this.http.delete<IContaCorrente>(`${this.endpoint}/${id}`);
   }
 }

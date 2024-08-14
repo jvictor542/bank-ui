@@ -1,9 +1,7 @@
-import {IAgencia, ICliente} from "@app/shared";
-
 export interface IContaCorrente {
   numero: string;
-  id: bigint;
+  id: number;
   saldo: number;
-  agencia: IAgencia;
-  cliente: ICliente
+  agenciaId: number;
+  clienteId: number
 }
