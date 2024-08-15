@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardModule} from "@angular/material/card";
+import {MatCardContent, MatCardHeader, MatCardModule} from "@angular/material/card";
 import {ActivatedRoute} from "@angular/router";
-import {AgenciaService, ClienteService, ContacorrenteService, IAgencia, ICliente, IContaCorrente} from "@app/shared";
+import {ClienteService, ContacorrenteService, ExtratoService, ICliente, IContaCorrente, IExtrato} from "@app/shared";
 import {CurrencyPipe, NgIf} from "@angular/common";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
@@ -11,10 +11,10 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {MatFormField, MatHint, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
 import {FormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
-import {Big} from 'big.js';
 import {MatOption, MatSelect} from "@angular/material/select";
 import {AgenciaFormComponent} from "@app/pages/agencias/agencia-form/agencia-form.component";
 import {ExtratosComponent} from "@app/pages/extratos/extratos.component";
+import {Operacao} from "@shared/enums";
 
 @Component({
   selector: 'app-cliente-detail',
@@ -65,6 +65,7 @@ export class ClienteDetailComponent implements OnInit{
     private route: ActivatedRoute,
     private clienteService: ClienteService,
     private contaService: ContacorrenteService,
+    private extratoService: ExtratoService,
     private dialog: MatDialog
   ) { }
 
@@ -105,10 +106,19 @@ export class ClienteDetailComponent implements OnInit{
   sacar(event: any): void {
     if (event === "Enter") {
 
+      const extrato: IExtrato = {
+        dataHoraMovimento: new Date(),
+        valor: this.valorSaque,
+        operacao: Operacao.SAQUE,
+        contaCorrenteId: this.conta.id,
+        contaDestinoId: 0
+      }
+
       this.contaService.sacar(this.conta.id, this.valorSaque).subscribe(
         () => {
           this.loadClienteInfos();
           this.showSaqueCampo = false;
+          this.criaExtrato(extrato);
         });
     }
   }
@@ -133,6 +143,10 @@ export class ClienteDetailComponent implements OnInit{
           this.showTransferenciaCampo = false;
         })
     }
+  }
+
+  criaExtrato(extrato: IExtrato) {
+    this.extratoService.addExtrato(extrato).subscribe(() => this.loadClienteInfos());
   }
 
   exibirExtratos() {
