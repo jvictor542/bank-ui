@@ -7,6 +7,14 @@ import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatDialog} from "@angular/material/dialog";
 import {ContaCorrenteFormComponent} from "@app/pages/conta-corrente/conta-corrente-form/conta-corrente-form.component";
 import {MatIcon} from "@angular/material/icon";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {MatFormField, MatHint, MatLabel, MatPrefix, MatSuffix} from "@angular/material/form-field";
+import {FormsModule} from "@angular/forms";
+import {MatInput} from "@angular/material/input";
+import {Big} from 'big.js';
+import {MatOption, MatSelect} from "@angular/material/select";
+import {AgenciaFormComponent} from "@app/pages/agencias/agencia-form/agencia-form.component";
+import {ExtratosComponent} from "@app/pages/extratos/extratos.component";
 
 @Component({
   selector: 'app-cliente-detail',
@@ -19,7 +27,21 @@ import {MatIcon} from "@angular/material/icon";
     MatButton,
     CurrencyPipe,
     MatIconButton,
-    MatIcon
+    MatIcon,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem,
+    MatFormField,
+    FormsModule,
+    MatInput,
+    MatPrefix,
+    MatSuffix,
+    MatLabel,
+    MatSelect,
+    MatOption,
+    MatHint,
+    AgenciaFormComponent,
+    ExtratosComponent
   ],
   templateUrl: './cliente-detail.component.html',
   styleUrl: './cliente-detail.component.scss'
@@ -28,18 +50,29 @@ export class ClienteDetailComponent implements OnInit{
 
   cliente: ICliente;
   conta: IContaCorrente;
-  agencia: IAgencia;
   temConta: boolean = false;
+  showModal: boolean = false;
+  showSaqueCampo: boolean = false;
+  showDepositoCampo: boolean = false;
+  showTransferenciaCampo: boolean = false;
+
+  valorSaque: number | null = null;
+  valorDeposito: number | null = null
+  valorTransferencia: number | null = null;
+  idDestino: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private clienteService: ClienteService,
     private contaService: ContacorrenteService,
-    private agenciaService: AgenciaService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
+    this.loadClienteInfos();
+  }
+
+  loadClienteInfos() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     if (id) {
@@ -50,18 +83,65 @@ export class ClienteDetailComponent implements OnInit{
         this.conta = result.find(conta => conta.clienteId === this.cliente.id);
         this.temConta = !!this.conta;
       })
-      }
+    }
   }
 
   addConta(): void {
-    // Open the dialog
-    this.dialog.open(ContaCorrenteFormComponent, {
+    const dialogRef = this.dialog.open(ContaCorrenteFormComponent, {
       width: '400px',
       data: { clientId: this.cliente.id }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadClienteInfos();
+      }
     });
   }
 
   deletarConta(): void {
-    this.contaService.deleteContas(this.conta.id);
+    this.contaService.deleteContas(this.conta.id).subscribe(() => this.loadClienteInfos());
   }
+
+  sacar(event: any): void {
+    if (event === "Enter") {
+
+      this.contaService.sacar(this.conta.id, this.valorSaque).subscribe(
+        () => {
+          this.loadClienteInfos();
+          this.showSaqueCampo = false;
+        });
+    }
+  }
+
+  depositar(event:any):void {
+    if (event === "Enter") {
+
+      this.contaService.depositar(this.conta.id, this.valorDeposito).subscribe(
+        () => {
+          this.loadClienteInfos();
+          this.showDepositoCampo = false;
+        });
+    }
+  }
+
+  transferir(event:any):void {
+    if (event === "Enter") {
+
+      this.contaService.transferir(this.conta.id, this.idDestino, this.valorTransferencia)
+        .subscribe(() => {
+          this.loadClienteInfos();
+          this.showTransferenciaCampo = false;
+        })
+    }
+  }
+
+  exibirExtratos() {
+    this.showModal = true;
+  }
+
+  fecharExtratos() {
+    this.showModal = false;
+  }
+
+
 }

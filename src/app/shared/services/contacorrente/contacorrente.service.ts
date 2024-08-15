@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {IContaCorrente} from "@app/shared";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {IContaCorrente, IExtrato} from "@app/shared";
 import {Observable} from "rxjs";
 
 export interface IContaCorrenteRequestParams {
@@ -39,7 +39,28 @@ export class ContacorrenteService {
     return this.http.put<IContaCorrente>(`${this.endpoint}/${id}`, params);
   }
 
-  deleteContas(id: number): Observable<IContaCorrente> {
-    return this.http.delete<IContaCorrente>(`${this.endpoint}/${id}`);
+  deleteContas(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.endpoint}/${id}`);
   }
+
+  depositar(id: number, valor: number): Observable<any> {
+    return this.http.post<any>(`${this.endpoint}/${id}/deposito`, valor)
+  }
+
+  sacar(id: number, valor: number): Observable<any> {
+    return this.http.post<any>(`${this.endpoint}/${id}/saque`, valor)
+  }
+
+  transferir(idOrigem: number, idDestino: number, valor:number): Observable<any> {
+    return this.http.post<any>(`${this.endpoint}/${idOrigem}/transferencia/${idDestino}`, valor)
+  }
+
+  recalcularSaldo(id: number): Observable<number> {
+    return this.http.get<number>(`${this.endpoint}/${id}/recalculo-saldo`)
+  }
+
+  exibirExtratos(id: number): Observable<IExtrato[]> {
+    return this.http.get<IExtrato[]>(`${this.endpoint}/${id}/extrato`)
+  }
+
 }

@@ -1,1 +1,12 @@
-<p>extratos works!</p>
+
+  <mat-card>
+    <button mat-icon-button (click)="close()">
+      <mat-icon color="warn">close</mat-icon>
+    </button>
+    <ng-container *ngFor="let extrato of extratos;">
+      <app-extrato-detail [extrato]="extrato"></app-extrato-detail>
+    </ng-container>
+  </mat-card>
+
+
+

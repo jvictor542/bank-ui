@@ -69,12 +69,10 @@ export class ContaCorrenteFormComponent implements OnInit{
   }
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   addConta() {
-    alert('chamou')
-    console.log(this.newContaForm)
     if (this.newContaForm.valid) {
       const formData = this.newContaForm.value;
 
@@ -84,6 +82,7 @@ export class ContaCorrenteFormComponent implements OnInit{
           },
           error: (error: any) => {
             console.error('Erro ao criar agência:', error);
+            this.close();
           }
         });
       }

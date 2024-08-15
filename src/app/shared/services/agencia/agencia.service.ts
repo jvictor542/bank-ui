@@ -26,7 +26,6 @@ export class AgenciaService {
   }
 
   getAgencias(): Observable<IAgencia[]> {
-    console.log(this.endpoint)
     return this.http.get<IAgencia[]>(this.endpoint);
   }
 

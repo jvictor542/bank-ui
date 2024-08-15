@@ -1,0 +1,12 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ extrato.dataHoraMovimento}}</mat-card-title>
+    <mat-card-subtitle>{{ extrato.operacao}}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p><strong>Conta Origem:</strong> {{ extrato.contaCorrenteId }}</p>
+    <p><strong>Conta Destino:</strong> {{ extrato.contaDestinoId }}</p>
+    <p><strong>Valor:</strong> {{ extrato.valor }}</p>
+  </mat-card-content>
+</mat-card>

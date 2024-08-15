@@ -21,7 +21,7 @@ export class ExtratoService {
     return this.http.post<IExtrato>(this.endpoint, params);
   }
 
-  getExtratoById(id: bigint): Observable<IExtrato> {
+  getExtratoById(id: number): Observable<IExtrato> {
     return this.http.get<IExtrato>(`${this.endpoint}/${id}`);
   }
 
@@ -29,11 +29,12 @@ export class ExtratoService {
     return this.http.get<IExtrato[]>(this.endpoint);
   }
 
-  getExtratosByContaCorrenteId(id: bigint): Observable<IExtrato> {
-    return this.http.get<IExtrato>(`${this.endpoint}/${id}`);
+  getExtratosByContaCorrenteId(id: number): Observable<IExtrato[]> {
+    return this.http.get<IExtrato[]>(`${this.endpoint}/conta/${id}`);
   }
 
-  deleteExtrato(id: bigint): Observable<IExtrato> {
+  deleteExtrato(id: number): Observable<IExtrato> {
     return this.http.delete<IExtrato>(`${this.endpoint}/${id}`);
   }
+
 }

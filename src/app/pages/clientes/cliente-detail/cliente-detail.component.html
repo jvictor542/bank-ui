@@ -4,6 +4,14 @@
     <mat-card-subtitle>ID: {{ cliente.id }}</mat-card-subtitle>
   </mat-card-header>
 
+  <ng-container *ngIf="showModal">
+    <div class="dialog-wrapper">
+      <div class="dialog-wrapper-content">
+        <app-extratos [contaId]="this.conta.id" (closeModal)="fecharExtratos()"></app-extratos>
+      </div>
+    </div>
+  </ng-container>
+
   <mat-card-content>
     <p><strong>Email:</strong> {{ cliente.cpf }}</p>
     <p><strong>Phone:</strong> {{ cliente.telefone }}</p>
@@ -13,15 +21,73 @@
         <h3>Dados da Conta Corrente</h3>
         <p><strong>ID da Agência:</strong> {{ conta.agenciaId }}</p>
         <p><strong>Número da Conta Corrente:</strong> {{ conta.numero }}</p>
+        <p><strong>Identificador da Conta:</strong> {{ conta.id }}</p>
         <p><strong>Saldo:</strong> {{ conta.saldo | currency:'USD':'symbol':'1.2-2' }}</p>
-        <button mat-raised-button color="warn" class="delete-button" (click)="deletarConta()">
-          Deletar Conta
-        </button>
+
+        <div class="buttons-container">
+          <button mat-icon-button [matMenuTriggerFor]="menu" color="primary">
+            <mat-icon>attach_money</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="showSaqueCampo = true">
+              <mat-icon>money_off</mat-icon>
+              <span>Sacar</span>
+            </button>
+            <button mat-menu-item (click)="showDepositoCampo = true">
+              <mat-icon>savings</mat-icon>
+              <span>Depositar</span>
+            </button>
+            <button mat-menu-item (click)="showTransferenciaCampo = true">
+              <mat-icon>sync_alt</mat-icon>
+              <span>Transferir</span>
+            </button>
+          </mat-menu>
+
+          <ng-container *ngIf="showSaqueCampo">
+            <mat-form-field floatLabel="always" (keyup)="sacar($event.key)">
+              <mat-label>Sacar</mat-label>
+              <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="valorSaque"/>
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="showDepositoCampo">
+            <mat-form-field floatLabel="always" (keyup)="depositar($event.key)">
+              <mat-label>Depositar</mat-label>
+              <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="valorDeposito"/>
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
+            </mat-form-field>
+          </ng-container>
+          <ng-container *ngIf="showTransferenciaCampo">
+            <mat-form-field floatLabel="always" (keyup)="transferir($event.key)">
+              <mat-label>Transferir</mat-label>
+              <input matInput type="number" class="example-right-align" placeholder="0" [(ngModel)]="valorTransferencia"/>
+              <span matTextPrefix>$&nbsp;</span>
+              <span matTextSuffix>.00</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" (keyup)="transferir($event.key)">
+              <mat-label>Id da conta destino</mat-label>
+              <input matInput [(ngModel)]="idDestino">
+              <mat-icon matSuffix>person_pin</mat-icon>
+              <mat-hint>Hint</mat-hint>
+            </mat-form-field>
+          </ng-container>
+
+          <button mat-icon-button color="primary" (click)="exibirExtratos()">
+            <mat-icon>receipt</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="deletarConta()">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </div>
+
       </div>
     </ng-container>
 
     <ng-template #semConta>
-      <button mat-raised-button color="primary" (click)="addConta()">Criar Conta Corrente</button>
+      <button mat-raised-button color="primary" (click)="addConta()">Abrir Conta Corrente</button>
     </ng-template>
 
   </mat-card-content>
